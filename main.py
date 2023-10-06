@@ -1,4 +1,10 @@
 from flask import Flask, request, abort
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+acs_token=os.getenv('access_token')
+handler=os.getenv('handler')
 
 from linebot.v3 import (
     WebhookHandler
@@ -20,8 +26,8 @@ from linebot.v3.webhooks import (
 
 app = Flask(__name__)
 
-configuration = Configuration(access_token='rLyDF9WrKSKuXEUc54mKGOwKv6nnTAWyHTviXvv6PIEm8eH2zaH6JrORsQQWUpMby3nKjPb3tW5iVeNITpD8CsYSRsJ4RLN2LMoRkYqMOuyLBsqqq4NYvx86MKFAIEGPX0X7C5CYGgBGyCyFddlmPAdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('80a5b48b934fe955ee3819d86d07467f')
+configuration = Configuration(access_token=acs_token)
+handler = WebhookHandler(handler)
 
 
 @app.route("/callback", methods=['POST'])
@@ -55,4 +61,4 @@ def handle_message(event):
         )
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run()
